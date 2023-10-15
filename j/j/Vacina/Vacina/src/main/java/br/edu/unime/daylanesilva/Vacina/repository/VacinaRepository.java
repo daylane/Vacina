@@ -1,15 +1,10 @@
 package br.edu.unime.daylanesilva.Vacina.repository;
 
 import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
-
 
 @Repository
-public interface VacinaRepository {
-    List<Vacina> findAll();
+public interface VacinaRepository extends MongoRepository<Vacina, String> {
 
-    Vacina save(Vacina vacina);
-
-    void deleteById(String id);
 }
