@@ -11,5 +11,5 @@ public interface VacinaRepository {
 
     Vacina save(Vacina vacina);
 
-    void deleteById(Long id);
+    void deleteById(String id);
 }

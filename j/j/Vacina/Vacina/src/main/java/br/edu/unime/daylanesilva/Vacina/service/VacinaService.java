@@ -35,7 +35,7 @@ public class VacinaService {
         mockVacinasFake.forEach(this::registrarVacina);
     }
 
-    public void deletarVacina(Long id) {
+    public void deletarVacina(String id) {
         vacinaRepositoy.deleteById(id);
     }
     }
