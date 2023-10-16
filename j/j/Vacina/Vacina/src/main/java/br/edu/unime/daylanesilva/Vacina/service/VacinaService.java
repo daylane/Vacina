@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VacinaService {
@@ -36,6 +37,17 @@ public class VacinaService {
     }
 
     public void deletarVacina(String id) {
+        Optional<Vacina> optionalVacina = obterVacinasPeloId(id);
         vacinaRepositoy.deleteById(id);
     }
+
+    public Optional<Vacina> obterVacinasPeloId(String id) {
+        return vacinaRepositoy.findById(id);
     }
+
+    public Vacina update(Vacina novaVacina, String id) {
+        Optional<Vacina> optionalVacina = obterVacinasPeloId(id);
+        return vacinaRepositoy.save(optionalVacina.get());
+    }
+}
+
