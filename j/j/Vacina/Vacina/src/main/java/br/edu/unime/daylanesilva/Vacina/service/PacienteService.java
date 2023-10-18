@@ -10,8 +10,12 @@ import java.util.List;
 @Service
 public class PacienteService {
 
+    private PacienteRepository pacienteRepository;
+
     @Autowired
-    PacienteRepository pacienteRepository;
+     public PacienteService(PacienteRepository pacienteRepository) {
+        this.pacienteRepository = pacienteRepository;
+    }
 
     public List<Paciente> obterTodos(){
         return pacienteRepository.findAll();
