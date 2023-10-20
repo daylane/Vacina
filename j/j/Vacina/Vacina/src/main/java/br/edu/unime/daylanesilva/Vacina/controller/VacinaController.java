@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.server.ResponseStatusException;
+
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,36 +21,71 @@ public class VacinaController {
 
     @PostMapping("vacinas/registrar-vacina")
     public ResponseEntity<Vacina> registrarVacina(@RequestBody Vacina vacina){
-        vacinaService.registrarVacina(vacina);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        try{
+            vacinaService.registrarVacina(vacina);
+            return ResponseEntity.status(HttpStatus.CREATED).body(vacina);
+        }
+        catch (Exception ex){
+            throw new ResponseStatusException( HttpStatus.BAD_REQUEST, "Vacina não registrada", ex);
+        }
+
     }
 
     @PostMapping("vacinas/mockVacinasFake")
     public ResponseEntity<Void> mockVacinasFake(){
-        vacinaService.mockVacinasFake();
-        return ResponseEntity.created(null).build();
+       try {
+           vacinaService.mockVacinasFake();
+           return ResponseEntity.created(null).build();
+       }
+       catch (Exception ex){
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vacina não resgistrada", ex);
+       }
+
     }
 
     @GetMapping("/vacinas")
     public ResponseEntity<List<Vacina>> obterVacinas() {
-        List<Vacina> vacina = vacinaService.obterVacinas();
-        return ResponseEntity.ok().body(vacina);
+       try {
+           List<Vacina> vacinaLista = vacinaService.obterVacinas();
+           return ResponseEntity.status(HttpStatus.ACCEPTED).body(vacinaLista);
+       }
+       catch (Exception ex){
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possivel listar vacinas", ex);
+       }
+
     }
 
     @GetMapping("/vacinas/{id}")
     public ResponseEntity<Optional<Vacina>> obterVacinaPeloId(@PathVariable String id){
-        return ResponseEntity.ok().body(vacinaService.obterVacinasPeloId(id));
+        try {
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(vacinaService.obterVacinasPeloId(id));
+        }
+        catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possivel encontrar a vacina.", ex);
+        }
+
     }
 
     @PutMapping("vacinas/{id}")
     public  ResponseEntity<Vacina> update(@RequestBody Vacina novaVacina, @PathVariable String id){
-        return ResponseEntity.ok().body(vacinaService.update(novaVacina, id));
+        try {
+            return ResponseEntity.ok().body(vacinaService.update(novaVacina, id));
+        }
+        catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possivel atualizar a vacina.", ex);
+        }
+
     }
 
     @DeleteMapping("vacinas/deletar-vacina/{id}")
     public ResponseEntity<Void> deletarVacina(@PathVariable String id ) {
-        vacinaService.deletarVacina(id);
-        return ResponseEntity.noContent().build();
+       try{
+           vacinaService.deletarVacina(id);
+           return ResponseEntity.noContent().build();
+       }
+        catch (Exception ex){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possivel excluir a vacina.", ex);
+        }
 
     }
 }
