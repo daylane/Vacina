@@ -38,6 +38,6 @@ public class Vacina {
     }
 
     public static Object builder() {
-        return null;
+        return  null;
     }
 }
