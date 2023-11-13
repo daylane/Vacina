@@ -29,15 +29,16 @@ public class Vacina {
     @NotNull(message = "O intervalo mínimo entre doses em dias da vacina não foi informado! OBS: Intervalo mínimo válido é 01 dia ou superior.")
     private int intervaloMinimoEntreDoses;
 
-    public Vacina (String fabricante, String lote, LocalDate dataValidade, int numeroDoses, int intervaloMinimoEntreDoses) {
+
+    public Vacina(String fabricante, String lote, LocalDate dataValidade, int numeroDoses,int intervaloMinimoEntreDoses ) {
         this.fabricante = fabricante;
         this.lote = lote;
         this.dataValidade = dataValidade;
         this.numeroDoses = numeroDoses;
         this.intervaloMinimoEntreDoses = intervaloMinimoEntreDoses;
+
     }
 
-    public static Object builder() {
-        return  null;
+    public Vacina(Vacina vacina) {
     }
 }

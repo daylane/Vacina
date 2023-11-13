@@ -1,53 +1,68 @@
 package br.edu.unime.daylanesilva.Vacina.service;
 
 import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
+import br.edu.unime.daylanesilva.Vacina.exception.BusinessException;
 import br.edu.unime.daylanesilva.Vacina.repository.VacinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Arrays;
+
+
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+
+import static java.lang.String.format;
 
 @Service
 public class VacinaService {
 
     @Autowired
-    private VacinaRepository vacinaRepositoy;
+    private VacinaRepository vacinaRepository;
 
-    public List<Vacina> obterVacinas() {
-        return vacinaRepositoy.findAll();
+    public List<Vacina> listarVacinas() {
+        return vacinaRepository.findAll();
     }
 
-    public void registrarVacina(Vacina vacina){
-        vacinaRepositoy.save(vacina);
+    public Vacina registrarVacina(@Valid Vacina vacina){
+        if(vacina != null){
+            vacinaRepository.save(vacina);
+        } else {
+            throw new IllegalArgumentException("A vacina não pode ser nula");
+        }
+        return vacina;
     }
 
-    //vacinas fake
-    public void mockVacinasFake() {
-        List<Vacina> mockVacinasFake = Arrays.asList(
-                new Vacina("Sinopharm", "MFG2023-ABC123", LocalDate.of(2019, 12, 12), 3, 45),
-                new Vacina("AstraZeneca ", "XYZ456-L210923", LocalDate.of(2021, 8, 17), 2, 60),
-                new Vacina("Generic Pharma", "PHARMA2023-BATCH42-23SEP", LocalDate.of(2022, 6, 23), 1, 90),
-                new Vacina("Moderna", "LOT789-XY2023-05", LocalDate.of(2022, 5, 14), 2, 45),
-                new Vacina("Johnson & Johnson", "PROD-1234-ABC-210930", LocalDate.of(2021, 7, 28), 3, 30)
-        );
-        mockVacinasFake.forEach(this::registrarVacina);
-    }
+
 
     public void deletarVacina(String id) {
-        Optional<Vacina> optionalVacina = obterVacinasPeloId(id);
-        vacinaRepositoy.deleteById(id);
+        Optional<Vacina> optionalVacina = buscarVacina(id);
+        vacinaRepository.deleteById(id);
     }
 
-    public Optional<Vacina> obterVacinasPeloId(String id) {
-        return vacinaRepositoy.findById(id);
+    public Optional<Vacina> buscarVacina(String id) {
+        if (id == null) {
+            throw new BusinessException("Id é obrigatório!");
+        }
+        try {
+            return vacinaRepository.findById(id);
+        } catch (final Exception e) {
+            throw new BusinessException(format("Erro ao buscar vacina pelo ID = %s", id), e);
+        }
     }
 
-    public Vacina update(Vacina novaVacina, String id) {
-        Optional<Vacina> optionalVacina = obterVacinasPeloId(id);
-        return vacinaRepositoy.save(optionalVacina.get());
-    }
+
+
+
+    public Vacina atualizarVacina(Vacina novaVacina, String id) {
+
+       try{
+           Optional<Vacina> optionalVacina = buscarVacina(id);
+
+        return vacinaRepository.save(optionalVacina.get());
+       } catch (final Exception e){
+           throw new BusinessException(format("Erro ao atualizar com o ID + %s",id),e);
+       }
+       }
 }
 

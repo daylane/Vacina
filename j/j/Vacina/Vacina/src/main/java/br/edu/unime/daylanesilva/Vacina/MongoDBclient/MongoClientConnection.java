@@ -1,22 +1,19 @@
+/*
 package br.edu.unime.daylanesilva.Vacina.MongoDBclient;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoException;
-import com.mongodb.ServerApi;
-import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
+
+
 public class MongoClientConnection {
     public static void main(String[] args) {
-        String connectionString = "mongodb+srv://gilsontpaim:Bsi%4012.2022@cluster0.cze5oux.mongodb.net/?retryWrites=true&w=majority";
-
-        ServerApi serverApi = ServerApi.builder()
-                .version(ServerApiVersion.V1)
-                .build();
+        String connectionString = "mongodb+srv://gilsontpaim:IRjaVsxljAGphZ21@cluster0.cze5oux.mongodb.net/?retryWrites=true&w=majority";
 
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(connectionString))
@@ -35,3 +32,5 @@ public class MongoClientConnection {
         }
     }
 }
+*/
+

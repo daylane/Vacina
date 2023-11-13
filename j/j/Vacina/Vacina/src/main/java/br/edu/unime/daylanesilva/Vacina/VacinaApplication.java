@@ -22,8 +22,6 @@ public class VacinaApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(VacinaApplication.class, args);
 	}
-		public @Bean MongoClient mongoClient() {
-		return MongoClients.create("mongodb://localhost:27017");
-	}
+
 
 }
