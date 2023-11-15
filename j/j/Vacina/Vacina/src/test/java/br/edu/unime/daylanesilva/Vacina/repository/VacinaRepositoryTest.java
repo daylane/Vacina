@@ -14,19 +14,20 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class VacinaRepositoryTest {
 
-
-    private Vacina registrarVacina(Vacina vacina){
-        Vacina novaVacina = new Vacina(vacina);
-    }
     @Test
     void findVacinaComSucesso() {
     }
+    @Test
+    void findVacinaSemSucesso() {
+    }
+
 
     @Test
-    void listarVacinas() {
+    void listarVacinasComSucesso() {
     }
 
     @Test
-    void findById() {
+    void listarVacinasSemSucesso() {
     }
+
 }
