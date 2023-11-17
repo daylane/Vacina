@@ -1,6 +1,5 @@
 package br.edu.unime.daylanesilva.Vacina.entityTest;
 
-<<<<<<< HEAD
 import br.edu.unime.daylanesilva.Vacina.dto.VacinaDTO;
 import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
 import org.junit.jupiter.api.DisplayName;
@@ -21,12 +20,11 @@ public class VacinaTest {
         VacinaDTO vacinaDTO = new VacinaDTO();
         vacinaDTO.setFabricante("Pfizer");
         vacinaDTO.setLote("ABC123");
-        vacinaDTO.setDataValidade(LocalDate.of(2023,12,31));
+        vacinaDTO.setDataValidade(LocalDate.of(2023, 12, 31));
         vacinaDTO.setNumeroDoses(2);
         vacinaDTO.setIntervaloMinimoEntreDoses(21);
 
         Vacina vacina = new Vacina(vacinaDTO);
-
 
         assertEquals(vacinaDTO.getFabricante(), vacina.getFabricante());
         assertEquals(vacinaDTO.getLote(), vacina.getLote());
@@ -34,9 +32,4 @@ public class VacinaTest {
         assertEquals(vacinaDTO.getNumeroDoses(), vacina.getNumeroDoses());
         assertEquals(vacinaDTO.getIntervaloMinimoEntreDoses(), vacina.getIntervaloMinimoEntreDoses());
     }
-=======
-
-class VacinaTest {
-
->>>>>>> origin/develop
 }

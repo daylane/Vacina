@@ -5,18 +5,11 @@ import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
 import br.edu.unime.daylanesilva.Vacina.exception.VacinaNotFoundException;
 import br.edu.unime.daylanesilva.Vacina.repository.VacinaRepository;
 import br.edu.unime.daylanesilva.Vacina.serviceTest.VacinaService;
-<<<<<<< HEAD
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-=======
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
->>>>>>> origin/develop
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,18 +18,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-<<<<<<< HEAD
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-=======
->>>>>>> origin/develop
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -51,14 +40,8 @@ public class VacinaControllerTest {
     @MockBean
     private VacinaRepository vacinaRepository;
 
-<<<<<<< HEAD
     @Autowired
     ObjectMapper objectMapper = new ObjectMapper();
-=======
-    @InjectMocks
-    VacinaController vacinaController;
->>>>>>> origin/develop
-
 
     private final Vacina vacina;
 
@@ -68,7 +51,6 @@ public class VacinaControllerTest {
         this.vacina = vacina;
     }
 
-<<<<<<< HEAD
     @Test
     @DisplayName("Deve ser possivel obter todos as vacinas cadrastadas")
     public void testeListarVAcinas() throws Exception {
@@ -76,14 +58,14 @@ public class VacinaControllerTest {
         Vacina vacina1 = new Vacina();
         vacina1.setFabricante("StropsFarm");
         vacina1.setLote("AJS3211");
-        vacina1.setDataValidade(LocalDate.of(2031,12,21));
+        vacina1.setDataValidade(LocalDate.of(2031, 12, 21));
         vacina1.setNumeroDoses(3);
         vacina1.setIntervaloMinimoEntreDoses(21);
 
         Vacina vacina2 = new Vacina();
         vacina2.setFabricante("NeoFarma");
         vacina2.setLote("FHD231MLD1");
-        vacina2.setDataValidade(LocalDate.of(2023,12,8));
+        vacina2.setDataValidade(LocalDate.of(2023, 12, 8));
         vacina2.setNumeroDoses(2);
         vacina2.setIntervaloMinimoEntreDoses(30);
 
@@ -98,15 +80,14 @@ public class VacinaControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].nome").value(vacina1.getFabricante()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].sobrenome").value(vacina1.getLote()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].sexo").value(vacina1.getDataValidade()));
-=======
->>>>>>> origin/develop
 
         verify(vacinaService, times(1))
                 .listarVacinas();
     }
+
     @Test
     @DisplayName("Deve retornar um array vazio quando busca não retornar vacinas")
-    public void testObterListagemEmBranco() throws Exception{
+    public void testObterListagemEmBranco() throws Exception {
 
         List<Vacina> vacinas = new ArrayList<>();
 
@@ -117,9 +98,10 @@ public class VacinaControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(0));
 
-                verify(vacinaService, times(1))
-                        .listarVacinas();
+        verify(vacinaService, times(1))
+                .listarVacinas();
     }
+
     @Test
     @DisplayName("Deve retornar uma vacina ao buscar pelo id")
     public void testeBuscarVacinaPorId() throws Exception {
@@ -127,20 +109,20 @@ public class VacinaControllerTest {
         vacina1.setId("653d254a70793512735a8edf");
         vacina1.setFabricante("StropsFarm");
         vacina1.setLote("AJS3211");
-        vacina1.setDataValidade(LocalDate.of(2031,12,21));
+        vacina1.setDataValidade(LocalDate.of(2031, 12, 21));
         vacina1.setNumeroDoses(3);
         vacina1.setIntervaloMinimoEntreDoses(21);
         when(vacinaService.findByid(vacina.getId())).thenReturn(Optional.of(vacina));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/vacinas/"+vacina1.getId()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/vacinas/" + vacina1.getId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.fabricante").value(vacina.getFabricante()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lote").value(vacina.getLote()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.dataValidade").value(vacina.getDataValidade().toString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.numeroDoses").value(vacina.getNumeroDoses()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.intervaloMinimoEntreDoses").value(vacina.getIntervaloMinimoEntreDoses()));
-
+                .andExpect(MockMvcResultMatchers.jsonPath("$.intervaloMinimoEntreDoses")
+                        .value(vacina.getIntervaloMinimoEntreDoses()));
 
         verify(vacinaService, times(1)).findByid(vacina.getId());
         verifyNoMoreInteractions(vacinaService);
@@ -152,7 +134,8 @@ public class VacinaControllerTest {
     void testeRetornarExceptionDevidoIdInexistente() throws Exception {
         String id = "12345";
 
-        Mockito.when(vacinaService.findByid(id)).thenAnswer(invocationOnMock -> {throw new Exception("Erro na requisição da vacina");
+        Mockito.when(vacinaService.findByid(id)).thenAnswer(invocationOnMock -> {
+            throw new Exception("Erro na requisição da vacina");
         });
 
         mockMvc.perform(MockMvcRequestBuilders.get("/Vacinas/" + id))
@@ -173,21 +156,22 @@ public class VacinaControllerTest {
         vacina1.setNumeroDoses(2);
         vacina1.setIntervaloMinimoEntreDoses(15);
 
-        Mockito.when(vacinaService.atualizarVacina(Mockito.any(VacinaDTO.class), Mockito.anyString())).thenReturn(vacina1);
-
+        Mockito.when(vacinaService.atualizarVacina(Mockito.any(VacinaDTO.class), Mockito.anyString()))
+                .thenReturn(vacina1);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/Vacinas/" + vacina1.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(vacina1)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(vacina1)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.fabricante").value(vacina1.getFabricante()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.lote").value(vacina1.getLote()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.dataValidade").value(vacina1.getDataValidade().toString()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.numeroDoses").value(vacina1.getNumeroDoses()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.intervaloMinimoEntreDoses").value(vacina1.getIntervaloMinimoEntreDoses()));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.intervaloMinimoEntreDoses")
+                        .value(vacina1.getIntervaloMinimoEntreDoses()));
 
-        verify(vacinaService, times(1)).atualizarVacina(Mockito.any(VacinaDTO.class),Mockito.eq(vacina1.getId()));
+        verify(vacinaService, times(1)).atualizarVacina(Mockito.any(VacinaDTO.class), Mockito.eq(vacina1.getId()));
     }
 
     @Test
@@ -195,25 +179,29 @@ public class VacinaControllerTest {
     public void testAtualizarPacienteIdInexistente() throws Exception {
         // Arrange
         Vacina novaVacina = new Vacina();
-      novaVacina.setFabricante("NeoQuimica");
-      novaVacina.setLote("GFL43-FD");
-      novaVacina.setDataValidade(LocalDate.of(2023,12,31));
-      novaVacina.setNumeroDoses(5);
-      novaVacina.setIntervaloMinimoEntreDoses(20);
+        novaVacina.setFabricante("NeoQuimica");
+        novaVacina.setLote("GFL43-FD");
+        novaVacina.setDataValidade(LocalDate.of(2023, 12, 31));
+        novaVacina.setNumeroDoses(5);
+        novaVacina.setIntervaloMinimoEntreDoses(20);
 
-        when(vacinaService.atualizarVacina(any(), any())).thenThrow(new VacinaNotFoundException("Vacina não encontrado"));
+        when(vacinaService.atualizarVacina(any(), any()))
+                .thenThrow(new VacinaNotFoundException("Vacina não encontrado"));
 
         // Act e Assert
         mockMvc.perform(MockMvcRequestBuilders.put("/Vacinas/IDInexistente")
-                        .content(asJsonString(novaVacina))
-                        .contentType(MediaType.APPLICATION_JSON))
+                .content(asJsonString(novaVacina))
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(MockMvcResultMatchers.content().json("{\"message\":\"Vacina não encontrada com o ID: IDInexistente\"}"));
+                .andExpect(MockMvcResultMatchers.content()
+                        .json("{\"message\":\"Vacina não encontrada com o ID: IDInexistente\"}"));
     }
+
     private String asJsonString(Object obj) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.writeValueAsString(obj);
     }
+
     @Test
     @DisplayName("Deve excluir uma vacina pelo id")
     void testeDeletarVacinaPeloId() throws Exception {

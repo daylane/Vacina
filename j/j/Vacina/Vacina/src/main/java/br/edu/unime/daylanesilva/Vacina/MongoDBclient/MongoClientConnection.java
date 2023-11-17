@@ -1,4 +1,4 @@
-/*
+
 package br.edu.unime.daylanesilva.Vacina.MongoDBclient;
 
 import com.mongodb.ConnectionString;
@@ -8,8 +8,6 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-
-
 
 public class MongoClientConnection {
     public static void main(String[] args) {
@@ -32,5 +30,3 @@ public class MongoClientConnection {
         }
     }
 }
-*/
-
