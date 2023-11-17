@@ -20,14 +20,14 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/vacina")
+@RequestMapping("api/vacinas")
 public class VacinaController {
 
     private static final Logger logger = LoggerFactory.getLogger(VacinaController.class);
     @Autowired
     private VacinaService vacinaService;
 
-    @GetMapping("/vacinas")
+    @GetMapping("api/vacinas")
     public List<Vacina> listarVacinas() {
         try {
             logger.info("Recebida uma solicitação para inserir uma nova vacina");
@@ -38,7 +38,7 @@ public class VacinaController {
         }
     }
 
-    @GetMapping("/vacinas/{id}")
+    @GetMapping("api/vacinas/{id}")
     public ResponseEntity<Optional<Vacina>> findById(@Valid @PathVariable String id) {
         try {
             logger.info("Buscando paciente pelo ID: {}", id);
@@ -49,7 +49,7 @@ public class VacinaController {
         }
     }
 
-    @PostMapping("/vacinas/registrarvacina")
+    @PostMapping("api/vacinas/registrarvacina")
     public ResponseEntity<Vacina> registrarVacina(@RequestBody @Valid VacinaDTO vacinaDTO) throws BusinessException {
         try {
             logger.info("Recebendo solicitação para inserir um nova vacina.");
@@ -65,7 +65,7 @@ public class VacinaController {
         }
     }
 
-    @PutMapping("/vacinas/atualizar/{id}")
+    @PutMapping("api/vacinas/atualizar/{id}")
     public ResponseEntity<Vacina> atualizarVacina(@RequestBody @Valid VacinaDTO vacinaDTO, @PathVariable String id) {
         try {
             logger.info("Recebendo solicitação para atualizar vacina com ID: {}", id);
@@ -80,7 +80,7 @@ public class VacinaController {
         }
     }
 
-    @DeleteMapping("vacinas/deletarvacina/{id}")
+    @DeleteMapping("api/vacinas/deletarvacina/{id}")
     public ResponseEntity<String> deletarVacina(@PathVariable String id) {
 
         try {
