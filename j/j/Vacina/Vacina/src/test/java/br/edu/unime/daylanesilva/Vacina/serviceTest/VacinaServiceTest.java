@@ -1,4 +1,4 @@
-package br.edu.unime.daylanesilva.Vacina.service;
+package br.edu.unime.daylanesilva.Vacina.serviceTest;
 
 import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
 import br.edu.unime.daylanesilva.Vacina.exception.BusinessException;
@@ -42,13 +42,20 @@ public class VacinaServiceTest {
     Vacina vacina;
 
     @BeforeEach
-    public void setUp() {
-        vacina = new Vacina("Stropts ", "TT12U19A", LocalDate.of(2021, 07, 14), 3, 15);
+    public void setUp(){
+        vacina = new Vacina(
+                "Strepos",
+                "KA092-B21",
+                LocalDate.of(2023,1,14),
+                3,
+                14
+        );
     }
 
     @Test
     void listarTodasVacinas(){
-        Assertions.assertEquals(vacina, vacinaRepository.findAll());
+
+        Assertions.assertEquals(vacina, vacinaService.listarVacinas());
     }
 
     @Test
@@ -57,7 +64,7 @@ public class VacinaServiceTest {
         Optional<Vacina> vacinas = vacinaService.buscarVacina(String.valueOf(vacina));
 
         assertEquals(Optional.ofNullable(vacina), vacina);
-        verify(vacinaRepository).findVacina(vacina.getId());
+        verify(vacinaRepository).findById(vacina.getId());
         verifyNoMoreInteractions(vacinaRepository);
 
     }
@@ -76,7 +83,7 @@ public class VacinaServiceTest {
 
     @Test
     void acionarExceptionNaFalhaRepository() {
-        when(vacinaRepository.findVacina(vacina.getId()))
+        when(vacinaRepository.findById(vacina.getId()))
                 .thenThrow(new RuntimeException(("Falha ao buscar vacina pelo ID!")));
         final BusinessException e = assertThrows(BusinessException.class, () -> {
             vacinaService.buscarVacina(vacina.getId());
@@ -85,8 +92,15 @@ public class VacinaServiceTest {
         assertThat(e.getMessage()).isEqualTo(format("Erro ao buscar vacina pelo ID = %s", vacina.getId()));
         assertThat(e.getCause().getClass()).isEqualTo(RuntimeException.class);
         assertThat(e.getCause().getMessage()).isEqualTo("Falha ao buscar vacina pelo ID!");
-        verify(vacinaRepository).findVacina(vacina.getId());
+        verify(vacinaRepository).findById(vacina.getId());
         verifyNoMoreInteractions(vacinaRepository);
 
+    }
+    @Test
+    void deletarVacinaComSucesso() {
+        when(vacinaRepository.findById(vacina.getId())).thenReturn(Optional.ofNullable(vacina));
+        vacinaService.deletarVacina(String.valueOf(vacina.getId()));
+        verify(vacinaRepository).deleteById(vacina.getId());
+        verifyNoMoreInteractions(vacinaRepository);
     }
 }

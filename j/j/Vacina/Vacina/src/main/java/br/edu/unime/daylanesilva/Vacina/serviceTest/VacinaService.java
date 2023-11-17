@@ -1,9 +1,10 @@
-package br.edu.unime.daylanesilva.Vacina.service;
+package br.edu.unime.daylanesilva.Vacina.serviceTest;
 
 import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
 import br.edu.unime.daylanesilva.Vacina.exception.BusinessException;
 import br.edu.unime.daylanesilva.Vacina.repository.VacinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 
@@ -18,12 +19,12 @@ import static java.lang.String.format;
 public class VacinaService {
 
     @Autowired
-    private VacinaRepository vacinaRepository;
+    private static VacinaRepository vacinaRepository;
 
-    public List<Vacina> listarVacinas() {
+    public static List<Vacina> listarVacinas() {
         return vacinaRepository.findAll();
     }
-
+    /*@CachePut("vacinaCache")*/
     public Vacina registrarVacina(@Valid Vacina vacina){
         if(vacina != null){
             vacinaRepository.save(vacina);
