@@ -3,7 +3,12 @@ package br.edu.unime.daylanesilva.Vacina.serviceTest;
 import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
 import br.edu.unime.daylanesilva.Vacina.exception.BusinessException;
 import br.edu.unime.daylanesilva.Vacina.repository.VacinaRepository;
+<<<<<<< HEAD
 import org.junit.jupiter.api.DisplayName;
+=======
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+>>>>>>> origin/develop
 import org.junit.jupiter.api.Test;
 
 
@@ -12,6 +17,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,6 +26,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+=======
+import org.springframework.boot.test.context.SpringBootTest;
+
+
+import java.time.LocalDate;
+
+
+>>>>>>> origin/develop
 import java.util.Optional;
 
 import static java.lang.String.format;
@@ -40,6 +54,7 @@ public class VacinaServiceTest {
     @Mock
     VacinaRepository vacinaRepository;
 
+<<<<<<< HEAD
     @MockBean
     Vacina vacina;
     @Autowired
@@ -95,6 +110,31 @@ public class VacinaServiceTest {
     void testebuscarVacinaPorIdComSucesso() {
         when(vacinaRepository.findById(vacina.getId())).thenReturn(Optional.ofNullable(vacina));
         Optional<Vacina> vacinas = vacinaService.findByid(String.valueOf(vacina));
+=======
+    Vacina vacina;
+
+    @BeforeEach
+    public void setUp(){
+        vacina = new Vacina(
+                "Strepos",
+                "KA092-B21",
+                LocalDate.of(2023,1,14),
+                3,
+                14
+        );
+    }
+
+    @Test
+    void listarTodasVacinas(){
+
+        Assertions.assertEquals(vacina, vacinaService.listarVacinas());
+    }
+
+    @Test
+    void buscarVacinaPorIdComSucesso() {
+        when(vacinaRepository.findById(vacina.getId())).thenReturn(Optional.ofNullable(vacina));
+        Optional<Vacina> vacinas = vacinaService.buscarVacina(String.valueOf(vacina));
+>>>>>>> origin/develop
 
         assertEquals(Optional.ofNullable(vacina), vacina);
         verify(vacinaRepository).findById(vacina.getId());
@@ -103,10 +143,16 @@ public class VacinaServiceTest {
     }
 
     @Test
+<<<<<<< HEAD
     @DisplayName("Não deve acionar o repository em falha de requisição por parte do usuario")
     void testenaoDeveAcionarRepositoryEmCasoFalha() {
         final BusinessException e = assertThrows(BusinessException.class, () -> {
             vacinaService.findByid(null);
+=======
+    void naoDeveAcionarRepositoryEmCasoFalha() {
+        final BusinessException e = assertThrows(BusinessException.class, () -> {
+            vacinaService.buscarVacina(null);
+>>>>>>> origin/develop
         });
         assertThat(e).isNotNull();
         assertThat(e.getMessage()).isEqualTo("Erro ao buscar vacina pelo ID = null");
@@ -116,12 +162,20 @@ public class VacinaServiceTest {
     }
 
     @Test
+<<<<<<< HEAD
     @DisplayName("Deve lançar uma Exception em caso de falha do repository")
     void testeacionarExceptionNaFalhaRepository() {
         when(vacinaRepository.findById(vacina.getId()))
                 .thenThrow(new RuntimeException(("Falha ao buscar vacina pelo ID!")));
         final BusinessException e = assertThrows(BusinessException.class, () -> {
             vacinaService.findByid(vacina.getId());
+=======
+    void acionarExceptionNaFalhaRepository() {
+        when(vacinaRepository.findById(vacina.getId()))
+                .thenThrow(new RuntimeException(("Falha ao buscar vacina pelo ID!")));
+        final BusinessException e = assertThrows(BusinessException.class, () -> {
+            vacinaService.buscarVacina(vacina.getId());
+>>>>>>> origin/develop
         });
 
         assertThat(e.getMessage()).isEqualTo(format("Erro ao buscar vacina pelo ID = %s", vacina.getId()));
@@ -132,6 +186,7 @@ public class VacinaServiceTest {
 
     }
     @Test
+<<<<<<< HEAD
     @DisplayName("Deve ser possível remover uma vacina existente")
     void testedeletarVacinaComSucesso() {
         Vacina vacina1 = new Vacina();
@@ -160,4 +215,12 @@ public class VacinaServiceTest {
 
         verifyNoInteractions(vacinaRepository);
     }
+=======
+    void deletarVacinaComSucesso() {
+        when(vacinaRepository.findById(vacina.getId())).thenReturn(Optional.ofNullable(vacina));
+        vacinaService.deletarVacina(String.valueOf(vacina.getId()));
+        verify(vacinaRepository).deleteById(vacina.getId());
+        verifyNoMoreInteractions(vacinaRepository);
+    }
+>>>>>>> origin/develop
 }

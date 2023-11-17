@@ -1,5 +1,6 @@
 package br.edu.unime.daylanesilva.Vacina.entityTest;
 
+<<<<<<< HEAD
 import br.edu.unime.daylanesilva.Vacina.dto.VacinaDTO;
 import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
 import org.junit.jupiter.api.DisplayName;
@@ -33,4 +34,9 @@ public class VacinaTest {
         assertEquals(vacinaDTO.getNumeroDoses(), vacina.getNumeroDoses());
         assertEquals(vacinaDTO.getIntervaloMinimoEntreDoses(), vacina.getIntervaloMinimoEntreDoses());
     }
+=======
+
+class VacinaTest {
+
+>>>>>>> origin/develop
 }

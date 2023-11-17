@@ -5,24 +5,33 @@ import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
 import br.edu.unime.daylanesilva.Vacina.exception.VacinaNotFoundException;
 import br.edu.unime.daylanesilva.Vacina.repository.VacinaRepository;
 import br.edu.unime.daylanesilva.Vacina.serviceTest.VacinaService;
+<<<<<<< HEAD
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+=======
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+>>>>>>> origin/develop
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+<<<<<<< HEAD
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+=======
+>>>>>>> origin/develop
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -42,8 +51,13 @@ public class VacinaControllerTest {
     @MockBean
     private VacinaRepository vacinaRepository;
 
+<<<<<<< HEAD
     @Autowired
     ObjectMapper objectMapper = new ObjectMapper();
+=======
+    @InjectMocks
+    VacinaController vacinaController;
+>>>>>>> origin/develop
 
 
     private final Vacina vacina;
@@ -54,6 +68,7 @@ public class VacinaControllerTest {
         this.vacina = vacina;
     }
 
+<<<<<<< HEAD
     @Test
     @DisplayName("Deve ser possivel obter todos as vacinas cadrastadas")
     public void testeListarVAcinas() throws Exception {
@@ -83,6 +98,8 @@ public class VacinaControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].nome").value(vacina1.getFabricante()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].sobrenome").value(vacina1.getLote()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].sexo").value(vacina1.getDataValidade()));
+=======
+>>>>>>> origin/develop
 
         verify(vacinaService, times(1))
                 .listarVacinas();

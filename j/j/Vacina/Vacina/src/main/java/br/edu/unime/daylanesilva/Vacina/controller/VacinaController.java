@@ -3,11 +3,16 @@ package br.edu.unime.daylanesilva.Vacina.controller;
 import br.edu.unime.daylanesilva.Vacina.dto.VacinaDTO;
 import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
 import br.edu.unime.daylanesilva.Vacina.exception.BusinessException;
+<<<<<<< HEAD
 import br.edu.unime.daylanesilva.Vacina.exception.VacinaNotFoundException;
 import br.edu.unime.daylanesilva.Vacina.serviceTest.VacinaService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+=======
+import br.edu.unime.daylanesilva.Vacina.serviceTest.VacinaService;
+import org.springframework.beans.BeanUtils;
+>>>>>>> origin/develop
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +35,22 @@ public class VacinaController {
     @GetMapping("/vacinas")
     public List<Vacina> listarVacinas(){
         try {
+<<<<<<< HEAD
             logger.info("Recebida uma solicitação para inserir uma nova vacina");
             return VacinaService.listarVacinas();
         }
         catch (Exception ex){
             logger.error("Erro ao tentar todas as vacinas", ex);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possivel listar todas as vacinas", ex);
+=======
+            List<Vacina> vacinaLista = VacinaService.listarVacinas();
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(Collections.singletonList((Vacina) vacinaLista));
+
+        } catch (Exception exception) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possivel listar vacinas cadastradas", exception);
+>>>>>>> origin/develop
         }
     }
 
@@ -51,7 +66,29 @@ public class VacinaController {
     }
 
     @PostMapping("/vacinas/registrarvacina")
+<<<<<<< HEAD
     public ResponseEntity<Vacina> registrarVacina(@RequestBody @Valid VacinaDTO vacinaDTO) throws BusinessException {
+=======
+    public ResponseEntity<Vacina> registrarVacina(@RequestBody @Valid Vacina vacina) throws BusinessException {
+        try {
+            Vacina vacinaSalva = vacinaService.registrarVacina(vacina);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(vacinaSalva);
+        } catch (Exception exception) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vacina não registrada", exception);
+        }
+    }
+
+
+
+
+    @PutMapping("/vacinas/atualizar/{id}")
+    public ResponseEntity<Vacina> atualizarVacina(@RequestBody @Valid Vacina vacinaAtualizada, @PathVariable String id){
+        if (vacinaAtualizada == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A vacina não pode ser nula");
+        }
+>>>>>>> origin/develop
         try {
             logger.info("Recebendo solicitação para inserir um nova vacina.");
             Vacina vacina = new Vacina(vacinaDTO);
