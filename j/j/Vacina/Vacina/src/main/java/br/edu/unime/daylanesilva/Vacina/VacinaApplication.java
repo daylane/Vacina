@@ -18,12 +18,12 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EntityScan("basePackages = br.edu.unime.daylaneSilva.vacina.Entity")
 public class VacinaApplication {
 
-	private static Looger logger = LoggerFactory.getLogger(VacinaApplication.class);
+
 
 	public static void main(String[] args) {
-		Logger.info("Iniciando a api de gerenciamento de vacinas");
+
 		SpringApplication.run(VacinaApplication.class, args);
-		Logger.info("A api de gerenciamento de vacinas está iniciada e pronta para receber requisições");
+
 	}
 
 }

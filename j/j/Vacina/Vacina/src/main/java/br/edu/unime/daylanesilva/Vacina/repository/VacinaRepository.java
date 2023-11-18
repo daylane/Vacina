@@ -1,15 +1,12 @@
 package br.edu.unime.daylanesilva.Vacina.repository;
 
 import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
-import br.edu.unime.daylanesilva.Vacina.serviceTest.VacinaService;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Repository
 public interface VacinaRepository extends MongoRepository<Vacina, String> {
@@ -18,5 +15,5 @@ public interface VacinaRepository extends MongoRepository<Vacina, String> {
 
     List<Vacina> findAll();
 
-    Optional<Vacina> findByFabricante(String fabricante);
+    List<Vacina> findByFabricante(String fabricante);
 }

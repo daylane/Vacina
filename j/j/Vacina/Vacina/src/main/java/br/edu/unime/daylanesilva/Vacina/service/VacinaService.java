@@ -3,12 +3,9 @@ package br.edu.unime.daylanesilva.Vacina.service;
 import br.edu.unime.daylanesilva.Vacina.dto.VacinaDTO;
 import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
 import br.edu.unime.daylanesilva.Vacina.exception.BusinessException;
-import br.edu.unime.daylanesilva.Vacina.exception.VacinaNotFoundException;
 import br.edu.unime.daylanesilva.Vacina.repository.VacinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 import javax.validation.Valid;
 import java.util.List;
@@ -35,7 +32,6 @@ public class VacinaService {
         return vacina;
     }
 
-
     public void deletarVacina(String id) {
         Optional<Vacina> optionalVacina = findByid(id);
         optionalVacina.ifPresent(value -> vacinaRepository.delete(value));
@@ -52,7 +48,6 @@ public class VacinaService {
         }
     }
 
-
     public Vacina atualizarVacina(@Valid VacinaDTO novaVacina, String id) throws Exception {
 
         Optional<Vacina> optionalVacina = findByid(id);
@@ -67,20 +62,19 @@ public class VacinaService {
                 vacinaExistente.setNumeroDoses(novaVacina.getNumeroDoses());
                 vacinaExistente.setIntervaloMinimoEntreDoses(novaVacina.getIntervaloMinimoEntreDoses());
 
-
                 return vacinaRepository.save(vacinaExistente);
             }
         } catch (Exception e) {
             throw new Exception("Não foi possivel atualizar a vacina!", e);
 
-
         }
         return null;
     }
 
-    public Optional<Vacina> findByFabricante(String fabricante) {
+
+    public List<Vacina> buscarvacinaPorFabricante(String fabricante) {
         if (fabricante == null) {
-            throw new BusinessException("O fabricante da vacina é obrigatório!");
+            throw new BusinessException("Fabricante é obrigatório!");
         }
         try {
             return vacinaRepository.findByFabricante(fabricante);
@@ -89,6 +83,6 @@ public class VacinaService {
         }
     }
 
+
+
 }
-
-
