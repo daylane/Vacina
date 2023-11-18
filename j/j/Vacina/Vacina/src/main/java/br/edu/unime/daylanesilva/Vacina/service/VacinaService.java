@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +34,6 @@ public class VacinaService {
         return vacina;
     }
 
-
     public void deletarVacina(String id) {
         Optional<Vacina> optionalVacina = findByid(id);
         optionalVacina.ifPresent(value -> vacinaRepository.delete(value));
@@ -52,7 +50,6 @@ public class VacinaService {
         }
     }
 
-
     public Vacina atualizarVacina(@Valid VacinaDTO novaVacina, String id) throws Exception {
 
         Optional<Vacina> optionalVacina = findByid(id);
@@ -67,18 +64,16 @@ public class VacinaService {
                 vacinaExistente.setNumeroDoses(novaVacina.getNumeroDoses());
                 vacinaExistente.setIntervaloMinimoEntreDoses(novaVacina.getIntervaloMinimoEntreDoses());
 
-
                 return vacinaRepository.save(vacinaExistente);
             }
         } catch (Exception e) {
             throw new Exception("Não foi possivel atualizar a vacina!", e);
 
-
         }
         return null;
     }
 
-    public Optional<Vacina> findByFabricante(String fabricante) {
+    public static Optional<Vacina> findByFabricante(String fabricante) {
         if (fabricante == null) {
             throw new BusinessException("O fabricante da vacina é obrigatório!");
         }
@@ -90,5 +85,3 @@ public class VacinaService {
     }
 
 }
-
-

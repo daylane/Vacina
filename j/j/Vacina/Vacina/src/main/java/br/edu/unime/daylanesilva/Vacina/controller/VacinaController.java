@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+
+import java.net.http.HttpClient;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,11 +43,26 @@ public class VacinaController {
     @GetMapping("api/vacinas/{id}")
     public ResponseEntity<Optional<Vacina>> findById(@Valid @PathVariable String id) {
         try {
-            logger.info("Buscando paciente pelo ID: {}", id);
+            logger.info("Buscando vacina pelo ID: {}", id);
             return ResponseEntity.ok().body(vacinaService.findByid(id));
         } catch (Exception ex) {
             logger.error("Erro ao buscar a vacina pelo ID: {}", id, ex);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possivel achar essa vacina", ex);
+        }
+    }
+
+    @GetMapping("api/vacinas/{fabricante}")
+    public ResponseEntity<List<Vacina>> findByFabricante(@Valid @PathVariable String fabricante) {
+        try {
+            logger.info("Buscando vacina pelo fabricante: {}", fabricante);
+            return ResponseEntity.ok().body(VacinaService.findByFabricante(fabricante));
+        } catch (Exception ex) {
+            logger.error("Erro ao buscar a lista dasvacina pelo fabricante: {}", fabricante, ex);
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Não foi possivel listar as vacinas pelo fabricante",
+                    ex);
+
         }
     }
 
@@ -59,7 +76,7 @@ public class VacinaController {
             logger.info("Nova vacina registrada com sucesso.");
 
             return ResponseEntity.created(null).body(vacina);
-        } catch (Exception ex) {
+        } catch (BusinessException ex) {
             logger.error("Erro ao processar a solicitação de inserção de vacina.", ex);
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Vacina não resgistrada", ex);
         }
