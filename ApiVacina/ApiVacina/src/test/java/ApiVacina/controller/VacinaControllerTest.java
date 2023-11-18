@@ -71,7 +71,7 @@ public class VacinaControllerTest {
 
         List<Vacina> vacinas = Arrays.asList(vacina1, vacina2);
 
-        when(VacinaService.listarVacinas()).thenReturn(vacinas);
+       // when(VacinaService.listarVacinas()).thenReturn(vacinas);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/Vacinas"))
                 .andExpect(status().isOk())
@@ -91,7 +91,7 @@ public class VacinaControllerTest {
 
         List<Vacina> vacinas = new ArrayList<>();
 
-        when(VacinaService.listarVacinas()).thenReturn(vacinas);
+       // when(VacinaService.listarVacinas()).thenReturn(vacinas);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/Vacinas"))
                 .andExpect(status().isOk())

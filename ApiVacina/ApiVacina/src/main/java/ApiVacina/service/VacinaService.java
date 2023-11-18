@@ -14,20 +14,15 @@ import java.util.Optional;
 @Service
 public class VacinaService {
     @Autowired
-    private static VacinaRepository vacinaRepository;
+    VacinaRepository vacinaRepository;
 
-    public static List<Vacina> listarVacinas() {
+    public List<Vacina> listarVacinas() {
         return vacinaRepository.findAll();
     }
 
-    public Vacina registrarVacina(@Valid Vacina vacina) {
-        if (vacina != null) {
-            vacinaRepository.save(vacina);
-            return vacina;
-        } else {
-            return null;
-        }
-
+    public Vacina registrarVacina(Vacina vacina) {
+        vacinaRepository.insert(vacina);
+        return vacina;
     }
 
 
