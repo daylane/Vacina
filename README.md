@@ -2,10 +2,13 @@
 Este projeto é uma API Java REST que permite registrar, atualizar, listar e deletar vacinas. Ele utiliza o MongoDB como banco de dados para armazenar as informações das vacinas.
 
 ## Indice
-- <a href="#Visao-Geral">Visão Geral</a>
-- <a href="#requisitos">s tecnologias principais utilizadas</a>
-- <a href="#requisitos">Pré-Requisitos</a>
-- <a href="#configuração-do-ambiente">Configuração do Ambiente</a>
+- [Visão Geral](#visão-geral)
+- [Requisitos](#requisitos)
+- [Configuração do Ambiente ](#configuraçãodoambiente)
+- [Uso](#uso)
+- [Contribuição](#contribuição)
+- [Autores](#autores)
+- [Referências](#referências)
 
 ## Visão Geral
 
@@ -23,15 +26,17 @@ A api de Gerenciamento de Vacinas permite o registro, atualização, remoção e
     
 ## Configuração do Ambiente
 
-# 1. Instalçai
+## Instalação
+
 - a. Clone este [repositório](https://github.com/daylane/Vacina.git) para o seu computador
 - b. Abra o projeto no Intellij
 - c. 	Configure as propriedades do aplicativo:
       •	Abra o arquivo application.properties no diretório src/main/resources.
       •	Ajuste as configurações do MongoDB conforme necessário.
 
-##Uso
-## A API possui os seguintes endpoints:
+## Uso
+
+### A API possui os seguintes endpoints:
 
 - GET /api/vacinas : Retorna uma lista de todas as vacinas cadastradas no banco de dados
 - GET /api/vacinas/{id} : Retorna a vacina com o id especificado
@@ -77,7 +82,7 @@ O formato dos dados das vacinas é o seguinte:
 ## Autores
 - [Felipe Santos](https://github.com/Lipe15)
 - [Daylane Silva](https://github.com/daylane)
-- [Gilson](https://github.com/gilsongmptj)
+- [Gilson Marcos Paim](https://github.com/gilsongmptj)
 - [Matheus Moura](https://github.com/mtcurly)
 - [Felipe Olivera](https://github.com/fel1pee)
 - [Marcus Vinicius](https://github.com/MarcusViniciusBtt)
