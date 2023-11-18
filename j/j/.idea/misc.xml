@@ -10,10 +10,9 @@
     </list>
     <writeAnnotations>
       <writeAnnotation name="org.springframework.beans.factory.annotation.Autowired" />
-<<<<<<< HEAD
+
       <writeAnnotation name="org.springframework.boot.test.mock.mockito.MockBean" />
-=======
->>>>>>> origin/develop
+
     </writeAnnotations>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />

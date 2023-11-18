@@ -14,6 +14,7 @@ public class VacinaDTO {
 
    @Id
     private String Id;
+   private String nome;
     private String fabricante;
     private String lote;
     private LocalDate dataValidade;

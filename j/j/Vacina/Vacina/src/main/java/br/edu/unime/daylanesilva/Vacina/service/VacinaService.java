@@ -1,4 +1,4 @@
-package br.edu.unime.daylanesilva.Vacina.serviceTest;
+package br.edu.unime.daylanesilva.Vacina.service;
 
 import br.edu.unime.daylanesilva.Vacina.dto.VacinaDTO;
 import br.edu.unime.daylanesilva.Vacina.entity.Vacina;
@@ -7,7 +7,7 @@ import br.edu.unime.daylanesilva.Vacina.exception.VacinaNotFoundException;
 import br.edu.unime.daylanesilva.Vacina.repository.VacinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.validation.Valid;
@@ -53,13 +53,14 @@ public class VacinaService {
     }
 
 
-    public Vacina atualizarVacina(@Valid VacinaDTO novaVacina, String id) {
+    public Vacina atualizarVacina(@Valid VacinaDTO novaVacina, String id) throws Exception {
 
-            Optional<Vacina> optionalVacina = findByid(id);
-
+        Optional<Vacina> optionalVacina = findByid(id);
+        try {
             if (optionalVacina.isPresent()) {
                 Vacina vacinaExistente = optionalVacina.get();
 
+                vacinaExistente.setNome(novaVacina.getNome());
                 vacinaExistente.setFabricante(novaVacina.getFabricante());
                 vacinaExistente.setLote(novaVacina.getLote());
                 vacinaExistente.setDataValidade(novaVacina.getDataValidade());
@@ -68,11 +69,26 @@ public class VacinaService {
 
 
                 return vacinaRepository.save(vacinaExistente);
-            } else {
-                return null;
             }
+        } catch (Exception e) {
+            throw new Exception("Não foi possivel atualizar a vacina!", e);
 
 
+        }
+        return null;
     }
+
+    public Optional<Vacina> findByFabricante(String fabricante) {
+        if (fabricante == null) {
+            throw new BusinessException("O fabricante da vacina é obrigatório!");
+        }
+        try {
+            return vacinaRepository.findByFabricante(fabricante);
+        } catch (final Exception e) {
+            throw new BusinessException(format("Erro ao buscar vacina pelo fabricante = %s", fabricante), e);
+        }
+    }
+
 }
+
 
