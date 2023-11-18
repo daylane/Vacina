@@ -22,6 +22,11 @@ public class Vacina {
     @Size(min = 3, max = 100, message = "O Fabricante deve ter entre 3 a 100 digitos")
     private String fabricante;
 
+    @NotBlank(message = "Vacina não pode estar em branco.")
+    @NotNull(message = "Vacina não pode estar em nulo.")
+    @Size(min = 3, max = 100, message = "O Vacina deve ter entre 3 a 100 digitos")
+    private String vacina;
+
     @NotBlank(message = "Lote não pode estar em branco!")
     @NotNull(message = "Lote não pode estar nulo!")
     @Size(min = 3, max = 100, message = "O Lote deve ter entre 3 a 100 digitos!")
@@ -38,6 +43,7 @@ public class Vacina {
 
 
     public Vacina(VacinaDto vacinaDTO) {
+        setVacina(vacinaDTO.getVacina());
         setFabricante(vacinaDTO.getFabricante());
         setLote(vacinaDTO.getLote());
         setDataValidade(vacinaDTO.getDataValidade());
