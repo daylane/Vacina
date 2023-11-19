@@ -53,14 +53,14 @@ O formato dos dados das vacinações é o seguinte:
       Post  http: //localhost:8082/api/vacinacao/registrar-vacinacao
   
 - Post Exemplo de Resposta:
-   {
-      "id": 1,
-      "nome": "B12",
-      "fabricante": "ULTRAFARMA",
-      "lote": "FJG-43JD",
-      "numeroDoses": 3,
-      "intervaloMininoEntreDoses": 90
-    }
+            {
+                  "id": 1,
+                  "nome": "B12",
+                  "fabricante": "ULTRAFARMA",
+                  "lote": "FJG-43JD",
+                  "numeroDoses": 3,
+                  "intervaloMininoEntreDoses": 90
+            }
 - Endpoint para deletar uma vacinação por ID:
 
       Delete http: //localhost:8082/api/deletarvacina/{id}
@@ -76,14 +76,14 @@ O formato dos dados das vacinações é o seguinte:
          
 - PUT exemplo de resposta:
 
-   {
-      "id": 1,
-      "nome": "B12",
-      "fabricante": "ULTRAFARMA",
-      "lote": "FJG-43JD",
-      "numeroDoses": 3,
-      "intervaloMininoEntreDoses": 30
-    }
+            {
+                  "id": 1,
+                  "nome": "B12",
+                  "fabricante": "ULTRAFARMA",
+                  "lote": "FJG-43JD",
+                  "numeroDoses": 3,
+                  "intervaloMininoEntreDoses": 30
+            }
 
 ###  Endpoints
 
