@@ -58,6 +58,12 @@ public class VacinaController {
         }
     }
 
+    @PostMappin(/vacinasmock)
+    public ResponseEntity<Void> vacinasmock(){
+        vacinaService.vacinasmock();
+        return ResponseEntity.created(null).build
+    }
+
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<Vacina> atualizarVacina(@RequestBody @Valid VacinaDto VacinaDto, @PathVariable String id) {
         try {

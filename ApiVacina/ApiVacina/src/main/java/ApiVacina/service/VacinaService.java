@@ -59,4 +59,15 @@ public class VacinaService {
         }
 
     }
+
+    public void vacinasMock(){
+        List<Vacina> vacinasmock(){
+            new Vacina("Pfizer","LF3343N",LocalDate.of(2023,12,31),2,50);
+            new Vacina("Moderna", "B84BF4", LocalDate.of(2022, 10, 13), 2, 28);
+            new Vacina("Johnson & Johnson", "N49FNKGH", LocalDate.of(2023, 4, 21), 1, 0);
+            new Vacina("Generic Pharma", "DB4-D43", LocalDate.of(2023, 12, 1O), 3, 4)
+
+        }
+        vacinasmock.forEach(vacina -> vacinaRepository.insert(vacina));
+    }
     }
