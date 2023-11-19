@@ -25,15 +25,18 @@ public class VacinaController {
     private VacinaService vacinaService;
 
     @GetMapping
-    public List<Vacina> listarVacinas() {
+    public List<VacinaDto> listarVacinas() {
         try {
             logger.info("Recebida uma solicitação para listar vacinas");
+
             return vacinaService.listarVacinas();
+
         } catch (Exception ex) {
             logger.info("Erro ao tentar todas as vacinas" + ex);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Erro ao listar a vacinas", ex);
         }
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Vacina>> findById(@Valid @PathVariable String id) {
@@ -65,7 +68,7 @@ public class VacinaController {
     }
 
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Vacina> atualizarVacina(@RequestBody @Valid VacinaDto VacinaDto, @PathVariable String id) {
+    public ResponseEntity<Vacina> atualizarVacina(@RequestBody  Vacina VacinaDto, @PathVariable String id) {
         try {
             logger.info("Recebendo solicitação para atualizar vacina com ID: {}" + id);
 
