@@ -36,6 +36,12 @@ A API é projetada para fornecer as seguintes funcionalidades:
       •	Abra o arquivo application.properties no diretório src/main/resources.
       •	Ajuste as configurações do MongoDB conforme necessário.
 
+### Banco de dados
+
+- a.  Iniciar uma nova conexão com a URL: mongodb://localhost:27017.
+- b.  Criar uma nova database com o nome de "sus-api".
+- c.  Dar o nome da primeira "collection" de "vacina".
+
 ###  Uso
 -A API oferece vários endpoints para criar, ler, atualizar e excluir registros de vacinação, bem como para consultar informações estatísticas. Certifique-se de seguir a documentação dos endpoints.
 
