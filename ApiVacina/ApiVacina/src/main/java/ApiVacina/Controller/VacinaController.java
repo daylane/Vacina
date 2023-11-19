@@ -19,23 +19,26 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("api/vacinas")
 public class VacinaController {
-    private static Logger logger = LoggerFactory.getLogger(VacinaController.class);
+    private Logger logger = LoggerFactory.getLogger(VacinaController.class);
 
     @Autowired
     private VacinaService vacinaService;
 
-    @GetMapping("api/vacinas")
-    public List<Vacina> listarVacinas() {
+    @GetMapping
+    public List<VacinaDto> listarVacinas() {
         try {
-            logger.info("Recebida uma solicitação para inserir uma nova vacina");
-            return VacinaService.listarVacinas();
+            logger.info("Recebida uma solicitação para listar vacinas");
+
+            return vacinaService.listarVacinas();
+
         } catch (Exception ex) {
-            logger.info("Erro ao tentar todas as vacinas");
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao excluir a vacina", ex);
+            logger.info("Erro ao tentar todas as vacinas" + ex);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Erro ao listar a vacinas", ex);
         }
     }
 
-    @GetMapping("api/vacinas/{id}")
+
+    @GetMapping("/{id}")
     public ResponseEntity<Optional<Vacina>> findById(@Valid @PathVariable String id) {
         try {
             logger.info("Buscando paciente pelo ID: {}" + id);
@@ -46,24 +49,26 @@ public class VacinaController {
         }
     }
 
-    @PostMapping("api/vacinas/registrarvacina")
-    public ResponseEntity<Vacina> registrarVacina(@RequestBody @Valid VacinaDto vacinaDTO){
+    @PostMapping
+    public Vacina registrarVacina(@RequestBody Vacina vacinaDTO){
         try {
-            logger.info("Recebendo solicitação para inserir um nova vacina.");
-            Vacina vacina = new Vacina(vacinaDTO);
-            vacinaService.registrarVacina(vacina);
 
-            logger.info("Nova vacina registrada com sucesso.");
+            return vacinaService.registrarVacina(vacinaDTO);
 
-            return ResponseEntity.created(null).body(vacina);
         } catch (Exception ex) {
             logger.info("Erro ao processar a solicitação de inserção de vacina.");
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao excluir a vacina", ex);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possível registrar vacina", ex);
         }
     }
 
-    @PutMapping("api/vacinas/atualizar/{id}")
-    public ResponseEntity<Vacina> atualizarVacina(@RequestBody @Valid VacinaDto VacinaDto, @PathVariable String id) {
+    @PostMappin(/vacinasmock)
+    public ResponseEntity<Void> vacinasmock(){
+        vacinaService.vacinasmock();
+        return ResponseEntity.created(null).build
+    }
+
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<Vacina> atualizarVacina(@RequestBody  Vacina VacinaDto, @PathVariable String id) {
         try {
             logger.info("Recebendo solicitação para atualizar vacina com ID: {}" + id);
 
@@ -74,7 +79,7 @@ public class VacinaController {
         }
     }
 
-    @DeleteMapping("api/vacinas/deletarvacina/{id}")
+    @DeleteMapping("/deletarvacina/{id}")
     public ResponseEntity<String> deletarVacina(@PathVariable String id) {
 
         try {

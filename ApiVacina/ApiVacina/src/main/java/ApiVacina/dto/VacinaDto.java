@@ -11,12 +11,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VacinaDto {
-    @Id
-    private String Id;
     private String fabricante;
-    private String lote;
-    private LocalDate dataValidade;
-    private int numeroDoses;
-    private int intervaloMinimoEntreDoses;
+    private String vacina;
+    private int total_de_doses;
+    private int intervalo_entre_doses;
 
 }

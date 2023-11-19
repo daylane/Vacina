@@ -1,6 +1,7 @@
 package ApiVacina.service;
 
 import ApiVacina.Repository.VacinaRepository;
+import ApiVacina.dto.VacinaDto;
 import ApiVacina.entity.Vacina;
 import ApiVacina.entityTest.VacinaTest;
 import org.junit.jupiter.api.Assertions;
@@ -43,7 +44,7 @@ public class VacinaServiceTest {
         List<Vacina> vacinasMock = new ArrayList<>();
         when(vacinaRepository.findAll()).thenReturn(vacinasMock);
 
-        List<Vacina> vacinas = vacinaService.listarVacinas();
+        List<VacinaDto> vacinas = vacinaService.listarVacinas();
         assertThat(vacinas).isEqualTo(vacinasMock);
         verifyNoMoreInteractions(vacinaRepository);
     }
@@ -53,7 +54,7 @@ public class VacinaServiceTest {
         List<Vacina> vacinasMock = new ArrayList<>();
         when(vacinaRepository.findAll()).thenReturn(vacinasMock);
 
-        List<Vacina> vacinas = vacinaService.listarVacinas();
+        List<VacinaDto> vacinas = vacinaService.listarVacinas();
         assertThat(vacinas).isNotEqualTo(vacinasMock);
         verifyNoInteractions(vacinaRepository);
     }
