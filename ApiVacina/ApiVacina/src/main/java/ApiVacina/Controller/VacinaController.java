@@ -1,6 +1,5 @@
 package ApiVacina.Controller;
 
-import ApiVacina.dto.VacinaDto;
 import ApiVacina.entity.Vacina;
 import ApiVacina.service.VacinaService;
 import org.slf4j.Logger;
@@ -24,32 +23,36 @@ public class VacinaController {
     @Autowired
     private VacinaService vacinaService;
 
+<<<<<<< Updated upstream
     @GetMapping
     public List<Vacina> listarVacinas(@RequestParam(required = false) String fabricante, String vacina) {
+=======
+    @GetMapping("api/vacinas")
+    public List<Vacina> listarVacinas() {
+>>>>>>> Stashed changes
         try {
             logger.info("Recebida uma solicitação para listar vacinas");
             return vacinaService.listarVacinas(fabricante, vacina);
 
         } catch (Exception ex) {
             logger.info("Erro ao tentar todas as vacinas" + ex);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Erro ao listar a vacinas", ex);
+            throw new ResponseStatusException(HttpStatus.ACCEPTED, "Erro ao listar a vacinas", ex);
         }
     }
 
-
-    @GetMapping("/{id}")
+    @GetMapping("/vacinas/{id}")
     public ResponseEntity<Optional<Vacina>> findById(@Valid @PathVariable String id) {
         try {
             logger.info("Buscando paciente pelo ID: {}" + id);
             return ResponseEntity.ok().body(vacinaService.findByid(id));
         } catch (Exception ex) {
-            logger.info("Erro ao buscar a vacina pelo ID: {}"+ id);
+            logger.info("Erro ao buscar a vacina pelo ID: {}" + id);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao excluir a vacina", ex);
         }
     }
 
-    @PostMapping
-    public Vacina registrarVacina(@RequestBody Vacina vacinaDTO){
+    @PostMapping("api/vacinas")
+    public Vacina registrarVacina(@RequestBody Vacina vacinaDTO) {
         try {
 
             return vacinaService.registrarVacina(vacinaDTO);
@@ -60,14 +63,22 @@ public class VacinaController {
         }
     }
 
+<<<<<<< Updated upstream
   /*  @PostMappin(/vacinasmock)
     public ResponseEntity<Void> vacinasmock(){
         vacinaService.vacinasmock();
         return ResponseEntity.created(null).build
     }*/
+=======
+    @PostMapping("api/vacinas/vacinasmock")
+    public ResponseEntity<Void> vacinasmock() {
+        vacinaService.vacinasMock();
+        return ResponseEntity.created(null).build();
+    }
+>>>>>>> Stashed changes
 
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<Vacina> atualizarVacina(@RequestBody  Vacina VacinaDto, @PathVariable String id) {
+    @PutMapping("/api/vacinas/id}")
+    public ResponseEntity<Vacina> atualizarVacina(@RequestBody Vacina VacinaDto, @PathVariable String id) {
         try {
             logger.info("Recebendo solicitação para atualizar vacina com ID: {}" + id);
 
@@ -78,11 +89,11 @@ public class VacinaController {
         }
     }
 
-    @DeleteMapping("/deletarvacina/{id}")
+    @DeleteMapping("/api/vacinas{id}")
     public ResponseEntity<String> deletarVacina(@PathVariable String id) {
 
         try {
-            logger.info("Recebendo solicitação para excluir paciente com ID: {}"+ id);
+            logger.info("Recebendo solicitação para excluir paciente com ID: {}" + id);
 
             vacinaService.deletarVacina(id);
 
