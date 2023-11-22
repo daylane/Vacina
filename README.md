@@ -36,6 +36,12 @@ A API é projetada para fornecer as seguintes funcionalidades:
       •	Abra o arquivo application.properties no diretório src/main/resources.
       •	Ajuste as configurações do MongoDB conforme necessário.
 
+### Banco de dados
+
+- a.  Iniciar uma nova conexão com a URL: mongodb://localhost:27017.
+- b.  Criar uma nova database com o nome de "sus-api".
+- c.  Dar o nome da primeira "collection" de "vacina".
+
 ###  Uso
 -A API oferece vários endpoints para criar, ler, atualizar e excluir registros de vacinação, bem como para consultar informações estatísticas. Certifique-se de seguir a documentação dos endpoints.
 
@@ -87,9 +93,9 @@ O formato dos dados das vacinações é o seguinte:
 
 ###  Endpoints
 
-- [/api/vacinas](#vacinas): Gerenciamento de informações sobre vacinas.
-- [/api/pacientes](#pacientes): Gerenciamento de informações sobre pacientes.
-- [/api/vacinacoes](#vacinacoes): Registro de vacinações de pacientes.
+- [/api/vacinas](#[vacina]): Gerenciamento de informações sobre vacinas.
+- [/api/pacientes](https://github.com/Lipe15/APi2): Gerenciamento de informações sobre pacientes.
+- [/api/vacinacoes](https://github.com/daylane/registroVacinacao): Registro de vacinações de pacientes.
 
 
 ##  Contribuição

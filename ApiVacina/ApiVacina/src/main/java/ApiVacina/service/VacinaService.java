@@ -8,7 +8,9 @@ import ApiVacina.entity.Vacina;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,19 +24,63 @@ public class VacinaService {
 
     private Logger logger = LoggerFactory.getLogger(VacinaService.class);
 
-    public List<VacinaDto> listarVacinas() {
+    public List<Vacina> listarVacinas(String fabricante, String vacina) {
         List<Vacina> vacinas;
-        vacinas = vacinaRepository.findAll();
-        logger.info("retornou " + vacinas.get(0));
 
-        return vacinas.stream().map(vacina -> {
+        if(fabricante != null && vacina != null)
+        {
+            logger.info("Pesquisando fabricante e vacina." );
+
+            vacinas = vacinaRepository.findByFabricanteAndVacina(fabricante, vacina);
+            if(vacinas.isEmpty())
+            {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
+            }
+            return vacinas;
+        }
+        else if(fabricante != null)
+        {
+            logger.info("Pesquisando fabricante." );
+            vacinas = vacinaRepository.findByFabricante(fabricante);
+
+            if(vacinas.isEmpty())
+            {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
+            }
+            return vacinas;
+        }
+        else if(vacina != null)
+        {
+            logger.info("Pesquisando vacina." );
+            vacinas = vacinaRepository.findByVacina(vacina);
+            if(vacinas.isEmpty())
+            {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
+            }
+            return vacinas;
+        }
+        else{
+            logger.info("Pesquisando tudo." );
+            vacinas = vacinaRepository.findAll();
+            if(vacinas.isEmpty())
+            {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
+            }
+            return vacinas;
+        }
+
+
+
+        //logger.info("retornou " + vacinas.get(0));
+
+        /*return vacinas.stream().map(vacinadto -> {
             VacinaDto vacinaDto = new VacinaDto();
-            vacinaDto.setVacina(vacina.getVacina());
-            vacinaDto.setFabricante(vacina.getFabricante());
-            vacinaDto.setTotal_de_doses(vacina.getNumeroDoses());
-            vacinaDto.setIntervalo_entre_doses(vacina.getIntervaloMinimoEntreDoses());
+            vacinaDto.setVacina(vacinadto.getVacina());
+            vacinaDto.setFabricante(vacinadto.getFabricante());
+            vacinaDto.setTotal_de_doses(vacinadto.getNumeroDoses());
+            vacinaDto.setIntervalo_entre_doses(vacinadto.getIntervaloMinimoEntreDoses());
             return vacinaDto;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toList());*/
 
     }
 
@@ -78,7 +124,7 @@ public class VacinaService {
 
     }
 
-    public void vacinasMock(){
+ /*   public void vacinasMock(){
         List<Vacina> vacinasmock(){
             new Vacina("Pfizer","LF3343N",LocalDate.of(2023,12,31),2,50);
             new Vacina("Moderna", "B84BF4", LocalDate.of(2022, 10, 13), 2, 28);
@@ -87,5 +133,5 @@ public class VacinaService {
 
         }
         vacinasmock.forEach(vacina -> vacinaRepository.insert(vacina));
-    }
+    }*/
     }
