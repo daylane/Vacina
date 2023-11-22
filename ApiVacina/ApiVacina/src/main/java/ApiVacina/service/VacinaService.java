@@ -26,37 +26,45 @@ public class VacinaService {
 
     public List<Vacina> listarVacinas(String fabricante, String vacina) {
         List<Vacina> vacinas;
-        if(fabricante != null && vacina != null){
-            logger.info("pesquisando fabricante e vacina." );
+
+        if(fabricante != null && vacina != null)
+        {
+            logger.info("Pesquisando fabricante e vacina." );
 
             vacinas = vacinaRepository.findByFabricanteAndVacina(fabricante, vacina);
-            if(vacinas.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacina não encontrada");
+            if(vacinas.isEmpty())
+            {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
             }
             return vacinas;
         }
-        else if(fabricante != null){
-            logger.info("pesquisando fabricante." );
+        else if(fabricante != null)
+        {
+            logger.info("Pesquisando fabricante." );
             vacinas = vacinaRepository.findByFabricante(fabricante);
 
-            if(vacinas.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacina não encontrada");
+            if(vacinas.isEmpty())
+            {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
             }
             return vacinas;
         }
-        else if(vacina != null){
-            logger.info("pesquisando vacina." );
+        else if(vacina != null)
+        {
+            logger.info("Pesquisando vacina." );
             vacinas = vacinaRepository.findByVacina(vacina);
-            if(vacinas.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacina não encontrada");
+            if(vacinas.isEmpty())
+            {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
             }
             return vacinas;
         }
         else{
-            logger.info("pesquisando tudo." );
+            logger.info("Pesquisando tudo." );
             vacinas = vacinaRepository.findAll();
-            if(vacinas.isEmpty()){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacina não encontrada");
+            if(vacinas.isEmpty())
+            {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
             }
             return vacinas;
         }
