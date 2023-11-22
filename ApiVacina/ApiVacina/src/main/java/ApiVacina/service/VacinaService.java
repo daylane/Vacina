@@ -22,19 +22,35 @@ public class VacinaService {
 
     private Logger logger = LoggerFactory.getLogger(VacinaService.class);
 
-    public List<VacinaDto> listarVacinas() {
-        List<Vacina> vacinas;
-        vacinas = vacinaRepository.findAll();
-        logger.info("retornou " + vacinas.get(0));
+    public List<Vacina> listarVacinas(String fabricante, String vacina) {
+        if(fabricante != null && vacina != null){
+            logger.info("pesquisando fabricante e vacina." );
+            return vacinaRepository.findByFabricanteAndVacina(fabricante, vacina);
+        }
+        else if(fabricante != null){
+            logger.info("pesquisando fabricante." );
+            return vacinaRepository.findByFabricante(fabricante);
+        }
+        else if(vacina != null){
+            logger.info("pesquisando vacina." );
+            return vacinaRepository.findByVacina(vacina);
+        }
+        else{
+            logger.info("pesquisando tudo." );
+            return vacinaRepository.findAll();
+        }
 
-        return vacinas.stream().map(vacina -> {
+
+        //logger.info("retornou " + vacinas.get(0));
+
+        /*return vacinas.stream().map(vacinadto -> {
             VacinaDto vacinaDto = new VacinaDto();
-            vacinaDto.setVacina(vacina.getVacina());
-            vacinaDto.setFabricante(vacina.getFabricante());
-            vacinaDto.setTotal_de_doses(vacina.getNumeroDoses());
-            vacinaDto.setIntervalo_entre_doses(vacina.getIntervaloMinimoEntreDoses());
+            vacinaDto.setVacina(vacinadto.getVacina());
+            vacinaDto.setFabricante(vacinadto.getFabricante());
+            vacinaDto.setTotal_de_doses(vacinadto.getNumeroDoses());
+            vacinaDto.setIntervalo_entre_doses(vacinadto.getIntervaloMinimoEntreDoses());
             return vacinaDto;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toList());*/
 
     }
 
@@ -78,7 +94,7 @@ public class VacinaService {
 
     }
 
-    public void vacinasMock(){
+ /*   public void vacinasMock(){
         List<Vacina> vacinasmock(){
             new Vacina("Pfizer","LF3343N",LocalDate.of(2023,12,31),2,50);
             new Vacina("Moderna", "B84BF4", LocalDate.of(2022, 10, 13), 2, 28);
@@ -87,5 +103,5 @@ public class VacinaService {
 
         }
         vacinasmock.forEach(vacina -> vacinaRepository.insert(vacina));
-    }
+    }*/
     }

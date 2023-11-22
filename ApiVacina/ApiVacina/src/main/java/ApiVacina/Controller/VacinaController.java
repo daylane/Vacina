@@ -25,11 +25,10 @@ public class VacinaController {
     private VacinaService vacinaService;
 
     @GetMapping
-    public List<VacinaDto> listarVacinas() {
+    public List<Vacina> listarVacinas(@RequestParam(required = false) String fabricante, String vacina) {
         try {
             logger.info("Recebida uma solicitação para listar vacinas");
-
-            return vacinaService.listarVacinas();
+            return vacinaService.listarVacinas(fabricante, vacina);
 
         } catch (Exception ex) {
             logger.info("Erro ao tentar todas as vacinas" + ex);
@@ -61,11 +60,11 @@ public class VacinaController {
         }
     }
 
-    @PostMappin(/vacinasmock)
+  /*  @PostMappin(/vacinasmock)
     public ResponseEntity<Void> vacinasmock(){
         vacinaService.vacinasmock();
         return ResponseEntity.created(null).build
-    }
+    }*/
 
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<Vacina> atualizarVacina(@RequestBody  Vacina VacinaDto, @PathVariable String id) {
