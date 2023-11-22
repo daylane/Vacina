@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Document(collection = "vacinas")
 public class Vacina {
 
     @Id
@@ -31,12 +33,8 @@ public class Vacina {
     @Min(value = 1, message = "O intervalo mínimo entre doses em dias deve ser maior que 0!")
     private int intervaloAplicacao;
 
-    public Vacina(String id, String fabricante, String lote, LocalDate dataValidade, int totalDoses, int intervaloAplicacao) {
-        this.id = id;
-        this.fabricante = fabricante;
-        this.lote = lote;
-        this.dataValidade = dataValidade;
-        this.totalDoses = totalDoses;
-        this.intervaloAplicacao = intervaloAplicacao;
+    public Vacina(VacinaDto vacinaDto) {
+
+
     }
 }
