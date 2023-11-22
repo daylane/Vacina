@@ -8,7 +8,9 @@ import ApiVacina.entity.Vacina;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -23,22 +25,42 @@ public class VacinaService {
     private Logger logger = LoggerFactory.getLogger(VacinaService.class);
 
     public List<Vacina> listarVacinas(String fabricante, String vacina) {
+        List<Vacina> vacinas;
         if(fabricante != null && vacina != null){
             logger.info("pesquisando fabricante e vacina." );
-            return vacinaRepository.findByFabricanteAndVacina(fabricante, vacina);
+
+            vacinas = vacinaRepository.findByFabricanteAndVacina(fabricante, vacina);
+            if(vacinas.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacina não encontrada");
+            }
+            return vacinas;
         }
         else if(fabricante != null){
             logger.info("pesquisando fabricante." );
-            return vacinaRepository.findByFabricante(fabricante);
+            vacinas = vacinaRepository.findByFabricante(fabricante);
+
+            if(vacinas.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacina não encontrada");
+            }
+            return vacinas;
         }
         else if(vacina != null){
             logger.info("pesquisando vacina." );
-            return vacinaRepository.findByVacina(vacina);
+            vacinas = vacinaRepository.findByVacina(vacina);
+            if(vacinas.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacina não encontrada");
+            }
+            return vacinas;
         }
         else{
             logger.info("pesquisando tudo." );
-            return vacinaRepository.findAll();
+            vacinas = vacinaRepository.findAll();
+            if(vacinas.isEmpty()){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacina não encontrada");
+            }
+            return vacinas;
         }
+
 
 
         //logger.info("retornou " + vacinas.get(0));
