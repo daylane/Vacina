@@ -23,13 +23,9 @@ public class VacinaController {
     @Autowired
     private VacinaService vacinaService;
 
-<<<<<<< Updated upstream
-    @GetMapping
-    public List<Vacina> listarVacinas(@RequestParam(required = false) String fabricante, String vacina) {
-=======
     @GetMapping("api/vacinas")
-    public List<Vacina> listarVacinas() {
->>>>>>> Stashed changes
+    public List<Vacina> listarVacinas(@RequestParam(required = false) String fabricante, String vacina) {
+
         try {
             logger.info("Recebida uma solicitação para listar vacinas");
             return vacinaService.listarVacinas(fabricante, vacina);
@@ -47,7 +43,7 @@ public class VacinaController {
             return ResponseEntity.ok().body(vacinaService.findByid(id));
         } catch (Exception ex) {
             logger.info("Erro ao buscar a vacina pelo ID: {}" + id);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao excluir a vacina", ex);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao buscar a vacina", ex);
         }
     }
 
@@ -63,19 +59,12 @@ public class VacinaController {
         }
     }
 
-<<<<<<< Updated upstream
-  /*  @PostMappin(/vacinasmock)
-    public ResponseEntity<Void> vacinasmock(){
-        vacinaService.vacinasmock();
-        return ResponseEntity.created(null).build
-    }*/
-=======
     @PostMapping("api/vacinas/vacinasmock")
     public ResponseEntity<Void> vacinasmock() {
         vacinaService.vacinasMock();
         return ResponseEntity.created(null).build();
     }
->>>>>>> Stashed changes
+
 
     @PutMapping("/api/vacinas/id}")
     public ResponseEntity<Vacina> atualizarVacina(@RequestBody Vacina VacinaDto, @PathVariable String id) {
@@ -97,7 +86,7 @@ public class VacinaController {
 
             vacinaService.deletarVacina(id);
 
-            logger.info("Paciente excluído com sucesso.");
+            logger.info("Vacina excluída com sucesso.");
 
             return ResponseEntity.noContent().build();
         } catch (Exception ex) {

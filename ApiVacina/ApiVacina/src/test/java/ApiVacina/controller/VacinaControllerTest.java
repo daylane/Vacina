@@ -59,28 +59,27 @@ public class VacinaControllerTest {
                 vacina1.setFabricante("StropsFarm");
                 vacina1.setLote("AJS3211");
                 vacina1.setDataValidade(LocalDate.of(2031, 12, 21));
-                vacina1.setNumeroDoses(3);
-                vacina1.setIntervaloMinimoEntreDoses(21);
+                vacina1.setTotalDoses(3);
+                vacina1.setIntervaloAplicacao(21);
 
                 Vacina vacina2 = new Vacina();
                 vacina2.setFabricante("NeoFarma");
                 vacina2.setLote("FHD231MLD1");
                 vacina2.setDataValidade(LocalDate.of(2023, 12, 8));
-                vacina2.setNumeroDoses(2);
-                vacina2.setIntervaloMinimoEntreDoses(30);
+                vacina2.setTotalDoses(2);
+                vacina2.setIntervaloAplicacao(30);
 
                 Arrays.asList(vacina1, vacina2);
 
-                // when(VacinaService.listarVacinas()).thenReturn(vacinas);
+
 
                 mockMvc.perform(MockMvcRequestBuilders.get("/Vacinas"))
                                 .andExpect(status().isOk())
                                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(2))
                                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].nome").value(vacina1.getFabricante()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("$[0].sobrenome").value(vacina1.getLote()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("$[0].sexo")
-                                                .value(vacina1.getDataValidade()));
+                                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lote").value(vacina1.getLote()))
+                                .andExpect(MockMvcResultMatchers.jsonPath("$[0].sexo").value(vacina1.getDataValidade()));
 
                 verify(vacinaService, times(1))
                                 .listarVacinas();
@@ -92,7 +91,6 @@ public class VacinaControllerTest {
 
                 List<Vacina> vacinas = new ArrayList<>();
 
-                // when(VacinaService.listarVacinas()).thenReturn(vacinas);
 
                 mockMvc.perform(MockMvcRequestBuilders.get("/Vacinas"))
                                 .andExpect(status().isOk())
@@ -111,21 +109,23 @@ public class VacinaControllerTest {
                 vacina1.setFabricante("StropsFarm");
                 vacina1.setLote("AJS3211");
                 vacina1.setDataValidade(LocalDate.of(2031, 12, 21));
-                vacina1.setNumeroDoses(3);
+                vacina1.setTotalDoses(3);
                 vacina1.setIntervaloMinimoEntreDoses(21);
                 when(vacinaService.findByid(vacina.getId())).thenReturn(Optional.of(vacina));
 
                 mockMvc.perform(MockMvcRequestBuilders.get("/vacinas/" + vacina1.getId()))
                                 .andExpect(MockMvcResultMatchers.status().isOk())
                                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                                .andExpect(MockMvcResultMatchers.jsonPath("$.fabricante").value(vacina.getFabricante()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("$.lote").value(vacina.getLote()))
+                                .andExpect(MockMvcResultMatchers.jsonPath("$.fabricante")
+                                        .value(vacina.getFabricante()))
+                                .andExpect(MockMvcResultMatchers.jsonPath("$.lote")
+                                        .value(vacina.getLote()))
                                 .andExpect(MockMvcResultMatchers.jsonPath("$.dataValidade")
-                                                .value(vacina.getDataValidade().toString()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("$.numeroDoses")
-                                                .value(vacina.getNumeroDoses()))
-                                .andExpect(MockMvcResultMatchers.jsonPath("$.intervaloMinimoEntreDoses")
-                                                .value(vacina.getIntervaloMinimoEntreDoses()));
+                                        .value(vacina.getDataValidade().toString()))
+                                .andExpect(MockMvcResultMatchers.jsonPath("$.totalDoses")
+                                        .value(vacina.setTotalDoses()))
+                                .andExpect(MockMvcResultMatchers.jsonPath("$.intervaloAplicacao")
+                                        .value(vacina.getIntervaloAplicacao()));
 
                 verify(vacinaService, times(1)).findByid(vacina.getId());
                 verifyNoMoreInteractions(vacinaService);
@@ -156,14 +156,9 @@ public class VacinaControllerTest {
                 vacinaAtualizar.setFabricante("NeoQuimica");
                 vacinaAtualizar.setLote("COR123th145");
                 vacinaAtualizar.setDataValidade(LocalDate.of(2023, 12, 25));
-                vacinaAtualizar.setNumeroDoses(2);
-                vacinaAtualizar.setIntervaloMinimoEntreDoses(15);
+                vacinaAtualizar.setTotalDoses(2);
+                vacinaAtualizar.setIntervaloAplicacao(15);
 
-                /*
-                 * Mockito.when(vacinaService.atualizarVacina(Mockito.any(VacinaDto.class),
-                 * Mockito.anyString()))
-                 * .thenReturn(vacinaAtualizar);
-                 */
 
                 mockMvc.perform(MockMvcRequestBuilders.put("/Vacinas/" + vacinaAtualizar.getId())
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -176,12 +171,10 @@ public class VacinaControllerTest {
                                 .andExpect(MockMvcResultMatchers.jsonPath("$.dataValidade")
                                                 .value(vacinaAtualizar.getDataValidade().toString()))
                                 .andExpect(MockMvcResultMatchers.jsonPath("$.numeroDoses")
-                                                .value(vacinaAtualizar.getNumeroDoses()))
+                                                .value(vacinaAtualizar.getTotalDoses()))
                                 .andExpect(MockMvcResultMatchers.jsonPath("$.intervaloMinimoEntreDoses")
-                                                .value(vacinaAtualizar.getIntervaloMinimoEntreDoses()));
+                                                .value(vacinaAtualizar.getIntervaloAplicacao()));
 
-                // verify(vacinaService, times(1)).atualizarVacina(Mockito.any(VacinaDto.class),
-                // Mockito.eq(vacinaAtualizar.getId()));
         }
 
         @Test
@@ -192,8 +185,8 @@ public class VacinaControllerTest {
                 novaVacina.setFabricante("NeoQuimica");
                 novaVacina.setLote("GFL43-FD");
                 novaVacina.setDataValidade(LocalDate.of(2023, 12, 31));
-                novaVacina.setNumeroDoses(5);
-                novaVacina.setIntervaloMinimoEntreDoses(20);
+                novaVacina.setTotalDoses(5);
+                novaVacina.setIntervaloAplicacao(20);
 
                 when(vacinaService.atualizarVacina(any(), any()))
                                 .thenThrow();
@@ -220,8 +213,8 @@ public class VacinaControllerTest {
                 vacinaSet.setFabricante("Probiotica");
                 vacinaSet.setLote("PNT12R3");
                 vacinaSet.setDataValidade(LocalDate.of(2023, 12, 25));
-                vacinaSet.setNumeroDoses(2);
-                vacinaSet.setIntervaloMinimoEntreDoses(15);
+                vacinaSet.setTotalDoses(2);
+                vacinaSet.setIntervaloAplicacao(15);
 
                 doNothing().when(vacinaService).deletarVacina(vacinaSet.getId());
 

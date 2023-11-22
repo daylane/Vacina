@@ -20,12 +20,12 @@ import java.util.*;
 @Service
 public class VacinaService {
     @Autowired
-    VacinaRepository vacinaRepository;
+    static VacinaRepository vacinaRepository;
 
-    private final Logger logger = LoggerFactory.getLogger(VacinaService.class);
+    private static final Logger logger = LoggerFactory.getLogger(VacinaService.class);
 
 
-    public List<Vacina> listarVacinas(String fabricante, String vacina) {
+    public static List<Vacina> listarVacinas(String fabricante, String vacina) {
 
 
         List<Vacina> vacinas;
@@ -58,7 +58,7 @@ public class VacinaService {
             vacinas = vacinaRepository.findByVacina(vacina);
             if(vacinas.isEmpty())
             {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
+                throw new ResponseStatusException(HttpStatus.ACCEPTED, " Vacina não encontrada");
             }
             return vacinas;
         }
@@ -76,7 +76,10 @@ public class VacinaService {
 
     }
 
-    private Optional<Vacina> findById(String id){
+    public Optional<Vacina> findByid(String id) {
+        if (id.isEmpty()) {
+            logger.info("Id não informado");
+        }
         return vacinaRepository.findById(id);
     }
 
@@ -92,39 +95,54 @@ public class VacinaService {
         vacinaList.forEach(vacina -> vacinaRepository.insert(vacina));
     }
 
-    public Vacina registrarVacina(Vacina vacina) throws Exception{
-        if (vacina.)
+    //pane no getLote -não sei por que
+/*    public Vacina registrarVacina(Vacina vacina){
+        List<Vacina> vacinas = new ArrayList<>();
+        for(Vacina vacinaExistente : this.vacinas){
+            if (vacina.getTotalDoses() > 1 && vacina.getIntervaloAplicacao() => 0) {
+                throw new IllegalArgumentException("Os valores acerca do numero de doses e o intervalos entre as aplicações não pode ser nulos");
+                logger.info("Não foi possivel registrar a vacina");
+            }
+            if (vacinaExistente.getLote().equals(vacinas.getLote())){
+                throw new IllegalArgumentException("A vacina já foi registrada!");
+
+            }
+        }
+      return vacinaRepository.insert(vacina);
+    }*/
+
+    public void deletarVacina(String id){
+        if (id.isEmpty()) {
+            logger.info("Id não informado");
+        }
+        //colocar validação para caso a vacina não existir voltar um not found
+
+        Optional<Vacina> optionalVacina = findByid(id);
+        if (optionalVacina.isPresent()) {
+            vacinaRepository.delete(optionalVacina.get());
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Vacina não encontrada");
+        }
     }
 
-/*    public Vacina registrarVacina(Vacina vacina) throws Exception {
-                 if (vacina.getTotal_de_doses() > 1 && vacina.getIntervalo_entre_doses() == null) {
-                throw new Exception();
-                logger.info("Não foi possivel registrar a vacina");
-        }
-                 return vacinaRepository.insert(vacina);
+    public Vacina atualizarVacina(Vacina vacinaDto, String id) {
+        return null;
     }
+
+    /*
     public void atualizarVacina(Vacina novaVacina, String id) throws Exception{
         Optional<Vacina> vacina = findByid(id);
 
         vacina.setFabricante(novaVacina.getFabricante());
         vacina.setLote(novaVacina.getLote());
-    }*/
-
-/*    public void deletarVacina(String id) throws Exception {
-        Optional<Vacina> optionalVacina = findByid(id);
-        optionalVacina.ifPresent(value -> vacinaRepository.delete(value));
-    }*/
-
-/*
-    public Optional<Vacina> findByid(String id) {
-        if (id == null) {
-            return null;
-        }
-        return vacinaRepository.findById(id);
-    }*/
+    }
 
 
-/*    public Vacina atualizarVacina(Vacina novaVacina, String id) {
+
+
+
+
+    public Vacina atualizarVacina(Vacina novaVacina, String id) {
 
         Optional<Vacina> optionalVacina = findByid(id);
 
