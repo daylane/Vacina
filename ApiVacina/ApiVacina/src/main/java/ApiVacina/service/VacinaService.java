@@ -1,6 +1,5 @@
 package ApiVacina.service;
 
-
 import ApiVacina.Controller.VacinaController;
 import ApiVacina.dto.VacinaDto;
 import ApiVacina.Repository.VacinaRepository;
@@ -8,14 +7,17 @@ import ApiVacina.entity.Vacina;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.fasterxml.jackson.databind.cfg.CoercionInputShape.Array;
 
 @Service
 public class VacinaService {
@@ -24,63 +26,19 @@ public class VacinaService {
 
     private Logger logger = LoggerFactory.getLogger(VacinaService.class);
 
-    public List<Vacina> listarVacinas(String fabricante, String vacina) {
+    public List<VacinaDto> listarVacinas(String fabricante, String vacina) {
         List<Vacina> vacinas;
+        vacinas = vacinaRepository.findAll();
+        logger.info("retornou " + vacinas.get(0));
 
-        if(fabricante != null && vacina != null)
-        {
-            logger.info("Pesquisando fabricante e vacina." );
-
-            vacinas = vacinaRepository.findByFabricanteAndVacina(fabricante, vacina);
-            if(vacinas.isEmpty())
-            {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
-            }
-            return vacinas;
-        }
-        else if(fabricante != null)
-        {
-            logger.info("Pesquisando fabricante." );
-            vacinas = vacinaRepository.findByFabricante(fabricante);
-
-            if(vacinas.isEmpty())
-            {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
-            }
-            return vacinas;
-        }
-        else if(vacina != null)
-        {
-            logger.info("Pesquisando vacina." );
-            vacinas = vacinaRepository.findByVacina(vacina);
-            if(vacinas.isEmpty())
-            {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
-            }
-            return vacinas;
-        }
-        else{
-            logger.info("Pesquisando tudo." );
-            vacinas = vacinaRepository.findAll();
-            if(vacinas.isEmpty())
-            {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
-            }
-            return vacinas;
-        }
-
-
-
-        //logger.info("retornou " + vacinas.get(0));
-
-        /*return vacinas.stream().map(vacinadto -> {
+        return vacinas.stream().map(vacina -> {
             VacinaDto vacinaDto = new VacinaDto();
-            vacinaDto.setVacina(vacinadto.getVacina());
-            vacinaDto.setFabricante(vacinadto.getFabricante());
-            vacinaDto.setTotal_de_doses(vacinadto.getNumeroDoses());
-            vacinaDto.setIntervalo_entre_doses(vacinadto.getIntervaloMinimoEntreDoses());
+            vacinaDto.setVacina(vacina.getVacina());
+            vacinaDto.setFabricante(vacina.getFabricante());
+            vacinaDto.setTotal_de_doses(vacina.getNumeroDoses());
+            vacinaDto.setIntervalo_entre_doses(vacina.getIntervaloMinimoEntreDoses());
             return vacinaDto;
-        }).collect(Collectors.toList());*/
+        }).collect(Collectors.toList());
 
     }
 
@@ -88,7 +46,6 @@ public class VacinaService {
         vacinaRepository.insert(vacina);
         return vacina;
     }
-
 
     public void deletarVacina(String id) {
         Optional<Vacina> optionalVacina = findByid(id);
@@ -101,7 +58,6 @@ public class VacinaService {
         }
         return vacinaRepository.findById(id);
     }
-
 
     public Vacina atualizarVacina(Vacina novaVacina, String id) {
 
@@ -116,7 +72,6 @@ public class VacinaService {
             vacinaExistente.setNumeroDoses(novaVacina.getNumeroDoses());
             vacinaExistente.setIntervaloMinimoEntreDoses(novaVacina.getIntervaloMinimoEntreDoses());
 
-
             return vacinaRepository.save(vacinaExistente);
         } else {
             return null;
@@ -124,14 +79,6 @@ public class VacinaService {
 
     }
 
- /*   public void vacinasMock(){
-        List<Vacina> vacinasmock(){
-            new Vacina("Pfizer","LF3343N",LocalDate.of(2023,12,31),2,50);
-            new Vacina("Moderna", "B84BF4", LocalDate.of(2022, 10, 13), 2, 28);
-            new Vacina("Johnson & Johnson", "N49FNKGH", LocalDate.of(2023, 4, 21), 1, 0);
-            new Vacina("Generic Pharma", "DB4-D43", LocalDate.of(2023, 12, 1O), 3, 4)
 
-        }
-        vacinasmock.forEach(vacina -> vacinaRepository.insert(vacina));
-    }*/
-    }
+
+}
