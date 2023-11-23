@@ -12,9 +12,12 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.fasterxml.jackson.databind.cfg.CoercionInputShape.Array;
 
 @Service
 public class VacinaService {
@@ -23,7 +26,7 @@ public class VacinaService {
 
     private Logger logger = LoggerFactory.getLogger(VacinaService.class);
 
-    public List<VacinaDto> listarVacinas() {
+    public List<VacinaDto> listarVacinas(String fabricante, String vacina) {
         List<Vacina> vacinas;
         vacinas = vacinaRepository.findAll();
         logger.info("retornou " + vacinas.get(0));
@@ -75,5 +78,7 @@ public class VacinaService {
         }
 
     }
+
+
 
 }
