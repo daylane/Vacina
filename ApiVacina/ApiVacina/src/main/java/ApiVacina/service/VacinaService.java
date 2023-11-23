@@ -5,6 +5,9 @@ import ApiVacina.Controller.VacinaController;
 import ApiVacina.dto.VacinaDto;
 import ApiVacina.Repository.VacinaRepository;
 import ApiVacina.entity.Vacina;
+import ApiVacina.exceptions.DataValidadeException;
+import ApiVacina.exceptions.LoteDuplicadoException;
+import ApiVacina.exceptions.VacinaNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,46 +31,24 @@ public class VacinaService {
     public List<Vacina> listarVacinas(String fabricante, String vacina) {
         List<Vacina> vacinas;
 
-        if(fabricante != null && vacina != null)
-        {
-            logger.info("Pesquisando fabricante e vacina." );
-
+        if (fabricante != null && vacina != null) {
+            logger.info("Pesquisando fabricante e vacina.");
             vacinas = vacinaRepository.findByFabricanteAndVacina(fabricante, vacina);
-            if(vacinas.isEmpty())
-            {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
-            }
-            return vacinas;
-        }
-        else if(fabricante != null)
-        {
-            logger.info("Pesquisando fabricante." );
+        } else if (fabricante != null) {
+            logger.info("Pesquisando fabricante.");
             vacinas = vacinaRepository.findByFabricante(fabricante);
-
-            if(vacinas.isEmpty())
-            {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
-            }
-            return vacinas;
-        }
-        else if(vacina != null)
-        {
-            logger.info("Pesquisando vacina." );
+        } else if (vacina != null) {
+            logger.info("Pesquisando vacina.");
             vacinas = vacinaRepository.findByVacina(vacina);
-            if(vacinas.isEmpty())
-            {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
-            }
-            return vacinas;
-        }
-        else{
-            logger.info("Pesquisando tudo." );
+        } else {
+            logger.info("Pesquisando tudo.");
             vacinas = vacinaRepository.findAll();
-            if(vacinas.isEmpty())
-            {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, " Vacina não encontrada");
-            }
-            return vacinas;
+        }
+        if (vacinas.isEmpty()) {
+            logger.info("Nenhuma vacina encontrada.");
+        }
+
+        return vacinas;
         }
 
 
@@ -82,11 +64,22 @@ public class VacinaService {
             return vacinaDto;
         }).collect(Collectors.toList());*/
 
-    }
 
     public Vacina registrarVacina(Vacina vacina) {
-        vacinaRepository.insert(vacina);
-        return vacina;
+        LocalDate DataValidade = vacina.getDataValidade();
+        if (DataValidade != null && DataValidade.isAfter(LocalDate.now())) {
+            throw new DataValidadeException("A data de validade não pode ser no futuro.");
+        }
+        if (vacinaRepository.existsByLote(vacina.getLote())) {
+            throw new LoteDuplicadoException("Já existe uma vacina com o mesmo numero de lote: " + vacina.getLote());
+        }
+        try{
+            vacinaRepository.insert(vacina);
+            return vacina;
+        }catch(Exception ex){
+            throw new VacinaNotFoundException("Não foi possivel inserir vacina");
+        }
+
     }
 
 
@@ -96,10 +89,12 @@ public class VacinaService {
     }
 
     public Optional<Vacina> findByid(String id) {
-        if (id == null) {
-            return null;
+        Optional<Vacina> vacinaOptional = vacinaRepository.findById(id);
+        if(vacinaOptional.isPresent()){
+            return vacinaOptional;
+        }else{
+            throw new VacinaNotFoundException("Vacina não encontrada com o id: "+ id);
         }
-        return vacinaRepository.findById(id);
     }
 
 
@@ -109,7 +104,7 @@ public class VacinaService {
 
         if (optionalVacina.isPresent()) {
             Vacina vacinaExistente = optionalVacina.get();
-
+            vacinaExistente.setVacina(novaVacina.getVacina());
             vacinaExistente.setFabricante(novaVacina.getFabricante());
             vacinaExistente.setLote(novaVacina.getLote());
             vacinaExistente.setDataValidade(novaVacina.getDataValidade());
@@ -124,14 +119,5 @@ public class VacinaService {
 
     }
 
- /*   public void vacinasMock(){
-        List<Vacina> vacinasmock(){
-            new Vacina("Pfizer","LF3343N",LocalDate.of(2023,12,31),2,50);
-            new Vacina("Moderna", "B84BF4", LocalDate.of(2022, 10, 13), 2, 28);
-            new Vacina("Johnson & Johnson", "N49FNKGH", LocalDate.of(2023, 4, 21), 1, 0);
-            new Vacina("Generic Pharma", "DB4-D43", LocalDate.of(2023, 12, 1O), 3, 4)
 
-        }
-        vacinasmock.forEach(vacina -> vacinaRepository.insert(vacina));
-    }*/
     }
