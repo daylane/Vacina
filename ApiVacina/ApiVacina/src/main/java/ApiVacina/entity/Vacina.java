@@ -5,46 +5,40 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "vacinas")
 public class Vacina {
-
     @Id
     private String id;
-    @NotEmpty(message = "O fabricante da vacina não foi informado!")
+    @NotBlank(message = "Nome do fabricante não pode estar em branco.")
     private String fabricante;
-    @NotEmpty(message = "O lote da vacina não foi informado!")
+    @NotBlank(message = "Nome da vacina não pode estar em branco.")
+    private String vacina;
+    @NotBlank(message = "Nome do lote não pode estar em branco.")
     private String lote;
-    @NotNull(message = "A data de validade da vacina não foi informada!")
+    @NotNull(message = "A data de validade da vacina não pode está em branco e o valor da data não pode ser no passado")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+    @FutureOrPresent
     private LocalDate dataValidade;
-    @NotNull(message = "O número de doses da vacina não foi informado!")
-    @Min(value = 1, message = "O número de doses da vacina deve ser maior que 0!")
-    private int totalDoses;
-    @Min(value = 1, message = "O intervalo mínimo entre doses em dias deve ser maior que 0!")
-    private int intervaloAplicacao;
+    @NotNull(message = "O número de doses da vacina não pode está em branco")
+    @Min(value = 1, message = "O numero de doses deve ser maior ou igual a 1.")
+    private int numeroDoses;
+    @Min(value = 1, message = "O Intervalo minimo entre doses deve ser maior ou igual a 1, no caso de doses unicas: informe 0.")
+    private int intervaloMinimoEntreDoses;
 
-    public Vacina(String id, String fabricante, String lote, LocalDate dataValidade, int totalDoses, int intervaloAplicacao) {
-        if(dataValidade.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("A data de validade deve ser no futuro.");
-        }
-            if (totalDoses <= 0 || intervaloAplicacao <= 0) {
-                throw new IllegalArgumentException("O número de doses e o intervalo mínimo devem ser positivos.");
-        }
-        this.id = id;
+    public Vacina(String fabricante, String vacina, String lote, LocalDate dataValidade, int numeroDoses, int intervaloMinimoEntreDoses) {
+
         this.fabricante = fabricante;
+        this.vacina = vacina;
         this.lote = lote;
         this.dataValidade = dataValidade;
-        this.totalDoses = totalDoses;
-        this.intervaloAplicacao = intervaloAplicacao;
+        this.numeroDoses = numeroDoses;
+        this.intervaloMinimoEntreDoses = intervaloMinimoEntreDoses;
     }
 
 
